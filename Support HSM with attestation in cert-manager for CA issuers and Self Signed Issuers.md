@@ -26,8 +26,7 @@ status: draft
 
 The HSM(Hardware Security Module) using PKCS11 interface provides a way following PKCS standard to hide the private key, where only the reference to the underlying key is provided there by not exposing the key in memory (in the clear). 
 
-Enhance cert-manager CA issuer and Self signed Issuers with HSM support. A new HSM controller will be added to take care of HSM related operations. An attestation controller will be added to handle HSM attestation and integrate with a Key Management Service(KMS).  
-
+Enhance cert-manager CA issuer and Self signed Issuers with HSM support. A new HSM controller will be added to take care of HSM related operations.
  
 
 ## Motivation 
@@ -80,8 +79,6 @@ One controller and two CustomResourceDefinitions will be added into cert-manager
  
 (Local) HSM Backend <-> HSM Controller <-> Attestation CRD <-> Attestation  
 
-Attestation CRD will be the communication bridge between `HSM` and `Attestation` controller. 
-
  
 
 #### Attestation Part: 
@@ -95,7 +92,7 @@ Attestation CRD will be the communication bridge between `HSM` and `Attestation`
 
 4. If passed 
 
-   * Adminwrap the each of the private key generated in step1 via the public key in the attestation CR.  
+   * Admin wrap the each of the private key generated in step1 via the public key in the attestation CR.  
    * create secret in cluster which includes the wrapped private key and cert(generated in step1) 
    * The secret name will be using  issuer name + `-cacert` format.  
    * admin update attestation CR status with `success` and reason/message 
@@ -139,8 +136,7 @@ spec:
 
  
 
-Besides HSM backend info user also needs to provide info about issuers they want to leverage the HSM functions.  We support two kinds of issuers for now : CA issuer and Self-Signed Issuer.  For CA issuer HSM will invoke remote KMS server to get the private key and certs back.  
-
+Besides HSM backend info user also needs to provide info about issuers they want to leverage the HSM functions.  We support two kinds of issuers for now : CA issuer and Self-Signed Issuer.  For CA issuer admin need to generate private keys/certs manually.  see above attestation flow.
  
 
  
