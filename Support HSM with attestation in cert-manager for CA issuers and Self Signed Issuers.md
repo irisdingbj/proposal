@@ -4,11 +4,11 @@ Support HSM with attestation in cert-manager
 
 Authors:  @kailun-qin, @irisdingbj 
 
-Reviewers: srinivasa.r.addepalli@intel.com 
+Reviewers: 
 
 creation-date: 2021-07-14 
 
-last-updated: 2021-07-28 
+last-updated: 2021-08-23
 
 status: draft 
 
