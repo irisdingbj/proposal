@@ -469,14 +469,6 @@ Items           []QuoteAttestation `json:"items"`
 
 With Crypto11 enabled, id and label are used as the identifiers to fetch the private key.  Either of them is usable to fetch the identical key.  
 
- 
-
-### Failover and scalability consideration with attestation 
-
- 
-With attestation supported, as long as KMRA server is online, the HSMs can be stateless. If an HSM Pod/node is down, it can simply restart on the same or different host. The HSM can re-initiate the attestation flow and get the keys provisioned. But they do not need to regenerate the certs if the secrets with the same signer exist with the contained cert not expired yet. 
-
-In this case, it may take some time for the HSM to conduct key synchronization (cold-start/updating), but there should be no other scalability limitation. 
 
 
 
