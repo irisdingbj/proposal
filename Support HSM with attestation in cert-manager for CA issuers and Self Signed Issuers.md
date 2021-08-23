@@ -223,10 +223,10 @@ import (
 metav1 "k8s.io/apimachinery/pkg/apis/meta/v1" 
 ) 
 type HardwareSecurityModule struct { 
-metav1.TypeMeta   `json:",inline"` 
-metav1.ObjectMeta `json:"metadata,omitempty"` 
-Spec HardwareSecurityModuleSpec `json:"spec"` 
-Status HardwareSecurityModuleStatus `json:"status"` 
+ metav1.TypeMeta   `json:",inline"` 
+ metav1.ObjectMeta `json:"metadata,omitempty"` 
+ Spec HardwareSecurityModuleSpec `json:"spec"` 
+ Status HardwareSecurityModuleStatus `json:"status"` 
 } 
 // HardwareSecurityModuleList is a list of HardwareSecurityModules 
 
@@ -260,21 +260,21 @@ Const (
 
 ) 
 type HardwareSecurityModuleStatus struct { 
-// type of the condition. Known conditions are "Success", and "Failed". 
+ // type of the condition. Known conditions are "Success", and "Failed". 
 
-Type           ConditionType `json:"type,omitempty"` 
-// +optional 
+ Type           ConditionType `json:"type,omitempty"` 
+ // +optional 
 
-State          string `json:"status,omitempty"` 
+ State          string `json:"status,omitempty"` 
 
-// +optional 
-Message        string `json:"message,omitempty"` 
+ // +optional 
+ Message        string `json:"message,omitempty"` 
 
-// lastUpdateTime is the time of the last update to this condition 
+ // lastUpdateTime is the time of the last update to this condition 
 
-// +optional 
+ // +optional 
 
-LastUpdateTime metav1.Time `json:"lastUpdateTime,omitempty"` 
+ LastUpdateTime metav1.Time `json:"lastUpdateTime,omitempty"` 
 
 } 
  
@@ -293,171 +293,115 @@ QuoteAttestationSpec  CRD:
 
 package v1alpha3 
 import ( 
-
 corev1 "k8s.io/api/core/v1" 
-
 metav1 "k8s.io/apimachinery/pkg/apis/meta/v1" 
-
 ) 
 
 // ConditionType is the type of a QuoteAttestationCondition 
+type ConditionType string  
+ const ( 
+ // Approved indicates the request was approved and should be issued by the signer. 
 
-type ConditionType string 
+ AttestationSuccess ConditionType = "Success" 
 
-// Well-known condition types for certificate requests. 
+ // Failed indicates the signer failed to issue the certificate. 
 
-const ( 
-// Approved indicates the request was approved and should be issued by the signer. 
-
-AttestationSuccess ConditionType = "Success" 
-
-// Failed indicates the signer failed to issue the certificate. 
-
-AttestationFailed ConditionType = "Failed" 
+ AttestationFailed ConditionType = "Failed" 
 
 ) 
 // QuoteAttestationSpec defines the desired state of QuoteAttestation 
-
 type QuoteAttestationSpec struct { 
 
-// Quote to be verified, base64-encoded. 
-
-// +kubebuilder:listType=atomic 
-
-Quote        []byte    `json:"quote"` 
-
-// QuoteVersion used to for generated quote, default is ECDSA quote "3" 
-
-// +kubebuilder:optional 
-QuoteVersion string    `json:"quoteVersion,omitempty"` 
-
-//// ServiceID holds the unique identifier(name?) that represents service 
-
-// which is requesting the secret. 
-
-// To be decided whether this should be a SPIFFE trust domain! 
-
-ServiceID    string    `json:"serviceId"` 
-// PublicKey for encrypting the secret, hash is part of the quote data, 
-
-// base-64 encoded. 
-
-// +kubebuilder:listType=atomic 
-
-PublicKey    []byte `json:"publicKey"` 
-
-// Signers holds the signer names 
-
-      Signers      []string  `json:"signers"` 
-
+ // Quote to be verified, base64-encoded. 
+ Quote        []byte    `json:"quote"` 
+ // QuoteVersion used to for generated quote, default is ECDSA quote "3" 
+ QuoteVersion string    `json:"quoteVersion,omitempty"` 
+ // which is requesting the secret. 
+ // To be decided whether this should be a SPIFFE trust domain! 
+ ServiceID    string    `json:"serviceId"` 
+ // PublicKey for encrypting the secret, hash is part of the quote data,  
+ PublicKey    []byte `json:"publicKey"` 
+ // Signers holds the signer names 
+  Signers      []string  `json:"signers"` 
 } 
-
 // QuoteAttestationCondition describes a condition of a QuoteAttestation object 
 
 type QuoteAttestationCondition struct { 
 
-// type of the condition. Known conditions are "Success", and "Failed". 
+ // type of the condition. Known conditions are "Success", and "Failed". 
+ // A "Success" indicating the attestation request was succeeded and the 
+ // secret keys have been created. 
+ // A "Failed" indicating the attestation request was failed for some reason, 
+ // message holds the additional information about the failure. 
+ Type           ConditionType `json:"type,omitempty"` 
+ // state indicates current request state 
+ // +optional 
+ State          string `json:"status,omitempty"` 
+ // message contains a human readable message with details about the request state 
+ // +optional 
+ Message        string `json:"message,omitempty"` 
 
-// A "Success" indicating the attestation request was succeeded and the 
-
-// secret keys have been created. 
-
-// A "Failed" indicating the attestation request was failed for some reason, 
-
-// message holds the additional information about the failure. 
-
-Type           ConditionType `json:"type,omitempty"` 
-
-// state indicates current request state 
-
-// +optional 
-
-State          string `json:"status,omitempty"` 
-
-// message contains a human readable message with details about the request state 
-
-// +optional 
-
-Message        string `json:"message,omitempty"` 
-
-// lastUpdateTime is the time of the last update to this condition 
-
-// +optional 
-
-LastUpdateTime metav1.Time `json:"lastUpdateTime,omitempty"` 
-
+ // lastUpdateTime is the time of the last update to this condition 
+ LastUpdateTime metav1.Time `json:"lastUpdateTime,omitempty"` 
 } 
+
 // QuoteAttestationSecret defines the secret get from the Key Management Service 
 
 type QuoteAttestationSecret struct { 
 
-// SecretName represents name of the Secret object (in the same namespace) 
+ // SecretName represents name of the Secret object (in the same namespace) 
 
-// which contains the secret keys. Added only after a successful quote 
+ // which contains the secret keys. Added only after a successful quote 
 
-// validation. The secret may contain several keys and other encrypted data. 
+ // validation. The secret may contain several keys and other encrypted data. 
 
-// +optional 
+ // +optional 
 
-SecretName string `json:"secretName,omitempty"` 
+ SecretName string `json:"secretName,omitempty"` 
 
-// SecretType defines the internal structure of secret fetched from the 
+ // SecretType defines the internal structure of secret fetched from the 
 
-// Key Management Service, as there might be different formats accordingly. 
+ // Key Management Service, as there might be different formats accordingly. 
 
-// +optional 
+ // +optional 
 
-SecretType string `json:"secretType,omitempty"` 
-
+ SecretType string `json:"secretType,omitempty"` 
 } 
 
 // QuoteAttestationStatus defines the observed state of QuoteAttestation 
 
 type QuoteAttestationStatus struct { 
+ // conditions applied to the request. Known conditions are "Success", and "Failed". 
+ // +optional 
+ Condition  QuoteAttestationCondition            `json:"condition,omitempty"` 
+ // Secret fetched after the request has been processed successfully 
+ // +optional 
 
-// conditions applied to the request. Known conditions are "Success", and "Failed". 
-
-// +optional 
-
-Condition  QuoteAttestationCondition            `json:"condition,omitempty"` 
-
-// Secret fetched after the request has been processed successfully 
-
-// +optional 
-
-Secret     map[string]QuoteAttestationSecret    `json:"secret,omitempty"` 
-
+ Secret     map[string]QuoteAttestationSecret    `json:"secret,omitempty"` 
 } 
-
-//+kubebuilder:object:root=true 
-
-//+kubebuilder:subresource:status 
 
 // QuoteAttestation is the Schema for the quoteattestations API 
 
 type QuoteAttestation struct { 
 
-metav1.TypeMeta   `json:",inline"` 
+ metav1.TypeMeta   `json:",inline"` 
 
-metav1.ObjectMeta `json:"metadata,omitempty"` 
+ metav1.ObjectMeta `json:"metadata,omitempty"` 
 
-Spec   QuoteAttestationSpec   `json:"spec,omitempty"` 
+ Spec   QuoteAttestationSpec   `json:"spec,omitempty"` 
 
-Status QuoteAttestationStatus `json:"status,omitempty"` 
-
+ Status QuoteAttestationStatus `json:"status,omitempty"` 
 } 
-
-//+kubebuilder:object:root=true 
-
+ 
 // QuoteAttestationList contains a list of QuoteAttestation 
 
 type QuoteAttestationList struct { 
 
-metav1.TypeMeta `json:",inline"` 
+ metav1.TypeMeta `json:",inline"` 
 
-metav1.ListMeta `json:"metadata,omitempty"` 
+ metav1.ListMeta `json:"metadata,omitempty"` 
 
-Items           []QuoteAttestation `json:"items"` 
+ Items           []QuoteAttestation `json:"items"` 
 
 } 
 ```
