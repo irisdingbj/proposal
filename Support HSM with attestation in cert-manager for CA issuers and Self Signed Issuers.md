@@ -77,13 +77,7 @@ One controller and two CustomResourceDefinitions will be added into cert-manager
  
 
 ### Workflow 
-
  
-
- 
-
- 
-
 (Local) HSM Backend <-> HSM Controller <-> Attestation CRD <-> Attestation  
 
 Attestation CRD will be the communication bridge between `HSM` and `Attestation` controller. 
@@ -92,63 +86,26 @@ Attestation CRD will be the communication bridge between `HSM` and `Attestation`
 
 #### Attestation Part: 
 
- 
 
-Attestation will be a total  manual process using two command utilities provided by KMRA team: 
+1. Tenant(signer) admin generate private/cert offline if there is CA type issuer defined.  If there are no CA type issuer defined skip this step. 
 
-`km-attest` : verify quote/pub key generated from HSM backend 
+2. Admin read attestation CR to get the quote/ public key 
 
-`km-wrap`:   wrap the provided private key using the pubkey 
+3. Admin verify the quote/public key in the CR via supported ways to make sure quote/ public key is trusted.
 
- 
+4. If passed 
 
-The detailed flow is as below:  
+   * Adminwrap the each of the private key generated in step1 via the public key in the attestation CR.  
+   * create secret in cluster which includes the wrapped private key and cert(generated in step1) 
+   * The secret name will be using  issuer name + `-cacert` format.  
+   * admin update attestation CR status with `success` and reason/message 
+   * Admin update attestation CR to fill signer: secret info.
 
- 
+5. If failed 
 
-Tenant(signer) admin generate private/cert offline if there is CA type signer defined.  
-
- Admin read attestation CR to get the quote/ public key 
-
-Admin run `km-attest` to verify the quote/public key in the CR 
-
- If passed 
-
- Admin run `km-wrap` to wrap the each of the private key generated in step1  
-
-create secret in cluster which includes the wrapped private key and cert(generated in step1) 
-
-The secret name will be using  issuer name + `-cacert` format.  
-
-admin update attestation CR status with `success` and reason/message 
-
-Admin update attestation CR to fill signer: secret info 
-
-If failed 
-
-admin update attestation CR status with `failed` and reason/message 
-
- 
-
- 
-
-An Attestation controller will be added to act as a Key Management Service client:  
-
-Watch attestation CRs. 
-
-Establish connections w/ the KMS server. 
-
-Get verification results & encrypted private keys for issuers back. 
-
-Update attestation CR and save the encrypted private keys into K8s secrets for each issuer. 
-
-  * Use the issuer name + `-key` as the secret name. 
-
- 
+   * admin update attestation CR status with `failed` and reason/message 
 
 #### HSM Part:   
-
- 
 
 User can define a `HardwareSecurityModule` Custom Resource like below to enable HSM related functions: 
 
