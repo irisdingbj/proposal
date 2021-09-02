@@ -68,7 +68,7 @@ type CertificatePrivateKey struct {
    Encoding PrivateKeyEncoding `json:"encoding,omitempty"`
    Algorithm PrivateKeyAlgorithm `json:"algorithm,omitempty"`
    Size int `json:"size,omitempty"` 
-   <b>Pkcs11 string  `json:"pkcs11,omitempty"`</b>
+   ** Pkcs11 string  `json:"pkcs11,omitempty"` **
   }
 ```
 The Pkcs11 format shall be a PKCS #11 URI (https://datatracker.ietf.org/doc/html/rfc7512) using `pkcs11`as prefix or an address for a remote HSM server.  An example is like `pkcs11:token=xxx%20;id=xxx?module-path=/usr/lib64/xxx.so&pin-value=1234`
@@ -93,23 +93,18 @@ PKI functions in cert-manager like generate key pair, get Key pair and Sign will
 
 One filed  `Pkcs11` for `IssuerConfig` in Issuer CRD will be added to let user specify PKCS11 URI info:
 
+```
 // The configuration for the issuer.
 // Only one of these can be set.
 type IssuerConfig struct {
-
   ACME *cmacme.ACMEIssuer `json:"acme,omitempty"`
-
   CA *CAIssuer `json:"ca,omitempty"`
-
   Vault *VaultIssuer `json:"vault,omitempty"`
-
-
   SelfSigned *SelfSignedIssuer `json:"selfSigned,omitempty"`
-
   Venafi *VenafiIssuer `json:"venafi,omitempty"`
-  Pkcs11 string  `json:"pkcs11,omitempty"`
-
+  ** Pkcs11 string  `json:"pkcs11,omitempty"` ** 
 }
+```
 
 CA issuer will be enhanced to call HSM backend via PKCS11 URI info to sign certs back. 
    
