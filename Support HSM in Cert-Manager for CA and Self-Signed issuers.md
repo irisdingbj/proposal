@@ -47,15 +47,13 @@ This mode is pluggable, no influence for all current functions if the user does 
 
 ## Proposal 
 
- 
-
-Built-in CA and Self Signed issuer will be enhanced to support loading private keys from HSM via keyID or label and fullfill it's function.
+PKI functions in cert-manager like generate key pair, get Key pair and Sign will be enhanced to call HSM backend instead for CRs that has PKCS11 info defined. 
 
 ### Self-Signed Issuer
 
 Self-signed issuer in cert-manager is majorly used to bootstrap a CA issuer. So it will work jointly with Certificate Custom resource.
 
-A picture 
+A picture to be added to illustrated. 
 
 One filed  `Pkcs11` for `CertificatePrivateKey` in Certificate CRD will be added to let user specify PKCS11 URI info:
 
@@ -67,20 +65,17 @@ type CertificatePrivateKey struct {
    Pkcs11 string  `json:"pkcs11,omitempty"`
   }
 ```
-The Pkcs11 format shall be a PKCS #11 URI (https://datatracker.ietf.org/doc/html/rfc7512) using `pkcs11`as prefix or an address for a remote HSM server.  An example is like `pkcs11:token=xxx%20;id=xxx?module-path=/usr/lib64/xxx.so&pin-value=1234`
+The Pkcs11 format shall be a PKCS #11 URI (https://datatracker.ietf.org/doc/html/rfc7512) using `pkcs11`as prefix or an address for a remote HSM server.  An example is like `pkcs11:token=xxx%20;id=xxx?module-path=/usr/lib64/xxx.so&pin-value=1234` 
 
-PKI functions in cert-manager like generate key pair, get Key pair and Sign will be enhanced to call HSM backend instead for CRs that has PKCS11 info defined. 
-
-1. Key Manager Controller will be enhanced to call HSM backend to generate private keys and using the returned key handler info to generate the temp secret. 
+1. Key Manager Controller will be enhanced to call HSM backend to generate private keys and using the returned key handler info to generate the temp secret. Some pseudocodes example: 
 ```
  config := parsePkcs11URI("pkcs11:token=xxx%20;id=xxx?module-path=/usr/lib64/xxx.so&pin-value=1234")
  context, err := crypto11.Configure(config)
  context.GenerateRSAKeyPair(xxx,xxx)
- 
 ```
 
 
-2. Request manager controller will be enhanced to create certificateRequest with `cert-manager.io/hsm :true` annotation for those certificates with pkcs11 info. 
+2. Request manager controller will be enhanced to create certificateRequest via hsm backend and add annotation `cert-manager.io/hsm :true`  for those certificates with pkcs11 info. 
  
 
 3. Issuing controller will be enhanced call HSM backend to sign the CSR to save secrets with key handler info with keys saved in HSM.  
@@ -98,10 +93,8 @@ type IssuerConfig struct {
 ```
 
 CA issuer will be enhanced to call HSM backend via PKCS11 URI info to sign certs back. 
-   
-
  
-
+### Work Flow Diagram 
 ### Key retrieval 
 
  
