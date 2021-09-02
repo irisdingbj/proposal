@@ -65,7 +65,7 @@ type CertificatePrivateKey struct {
    Pkcs11 string  `json:"pkcs11,omitempty"`
   }
 ```
-The Pkcs11 format shall be a PKCS #11 URI (https://datatracker.ietf.org/doc/html/rfc7512) using `pkcs11`as prefix or an address for a remote HSM server.  An example is like `pkcs11:token=xxx%20;id=xxx?module-path=/usr/lib64/xxx.so&pin-value=1234` 
+The Pkcs11 format shall be a PKCS #11 [URI](https://datatracker.ietf.org/doc/html/rfc7512) using `pkcs11`as prefix or an address for a remote HSM server.  An example is like `pkcs11:token=xxx%20;id=xxx?module-path=/usr/lib64/xxx.so&pin-value=1234` 
 
 1. Key Manager Controller will be enhanced to call HSM backend to generate private keys and using the returned key handler info to generate the temp secret. Some pseudocodes example: 
 ```
@@ -105,8 +105,8 @@ With Crypto11 enabled, id and label are used as the identifiers to fetch the pri
 
  ## Reference Standards
 
-* PKCS #11 (https://www.oasis-open.org/news/announcements/four-pkcs-11-specifications-from-pkcs11-tc-approved-as-committee-specifications/)
-* PKCS #11 URI (https://datatracker.ietf.org/doc/html/rfc7512)
+* [PKCS #11](https://www.oasis-open.org/news/announcements/four-pkcs-11-specifications-from-pkcs11-tc-approved-as-committee-specifications/)
+* [PKCS #11 URI](https://datatracker.ietf.org/doc/html/rfc7512)
 
 ### Third Party Projects 
 
