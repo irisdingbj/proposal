@@ -105,8 +105,8 @@ With Crypto11 enabled, id and label are used as the identifiers to fetch the pri
 
  ## Reference Standards
 
-PKCS #11 (https://www.oasis-open.org/news/announcements/four-pkcs-11-specifications-from-pkcs11-tc-approved-as-committee-specifications/)
-PKCS #11 URI (https://datatracker.ietf.org/doc/html/rfc7512)
+* PKCS #11 (https://www.oasis-open.org/news/announcements/four-pkcs-11-specifications-from-pkcs11-tc-approved-as-committee-specifications/)
+* PKCS #11 URI (https://datatracker.ietf.org/doc/html/rfc7512)
 
 ### Third Party Projects 
 
