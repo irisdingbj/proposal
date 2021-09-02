@@ -59,24 +59,26 @@ A picture
 
 One filed  `Pkcs11` for `CertificatePrivateKey` in Certificate CRD will be added to let user specify PKCS11 URI info:
 
+```
 // CertificatePrivateKey contains configuration options for private keys
 // used by the Certificate controller.
 // This allows control of how private keys are rotated.
 type CertificatePrivateKey struct {
-  
-  RotationPolicy PrivateKeyRotationPolicy `json:"rotationPolicy,omitempty"`
-  Encoding PrivateKeyEncoding `json:"encoding,omitempty"`
-  Algorithm PrivateKeyAlgorithm `json:"algorithm,omitempty"`
-  Size int `json:"size,omitempty"` 
-  Pkcs11 string  `json:"pkcs11,omitempty"`
+   RotationPolicy PrivateKeyRotationPolicy `json:"rotationPolicy,omitempty"`
+   Encoding PrivateKeyEncoding `json:"encoding,omitempty"`
+   Algorithm PrivateKeyAlgorithm `json:"algorithm,omitempty"`
+   Size int `json:"size,omitempty"` 
+   Pkcs11 string  `json:"pkcs11,omitempty"`
   }
-
-The URL format shall be a PKCS #11 URI (https://datatracker.ietf.org/doc/html/rfc7512) using `pkcs11`as prefix or an address for a remote HSM server. 
+```
+The Pkcs11 format shall be a PKCS #11 URI (https://datatracker.ietf.org/doc/html/rfc7512) using `pkcs11`as prefix or an address for a remote HSM server.  An example is like `pkcs11:token=xxx%20;id=xxx?module-path=/usr/lib64/xxx.so&pin-value=1234`
 
 1. Key Manager Controller will be enhanced to call HSM backend to generate private keys and using the returned key handler info to generate the temp secret. 
-config := parsePkcs11URI("pkcs11:token=xxx%20;id=xxx?module-path=/usr/lib64/xxx.so&pin-value=1234")
-context, err := crypto11.Configure(config)
-context.GenerateRSAKeyPair(xxx,xxx)
+```
+ config := parsePkcs11URI("pkcs11:token=xxx%20;id=xxx?module-path=/usr/lib64/xxx.so&pin-value=1234")
+ context, err := crypto11.Configure(config)
+ context.GenerateRSAKeyPair(xxx,xxx)
+```
 
 
 2. Request manager controller will be enhanced to create certificateRequest with `cert-manager.io/hsm :true` annotation for those certificates with pkcs11 info. 
