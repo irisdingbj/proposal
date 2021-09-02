@@ -63,12 +63,8 @@ One filed  `Pkcs11` for `CertificatePrivateKey` in Certificate CRD will be added
 // CertificatePrivateKey contains configuration options for private keys
 // used by the Certificate controller.
 // This allows control of how private keys are rotated.
-type CertificatePrivateKey struct {
-   RotationPolicy PrivateKeyRotationPolicy `json:"rotationPolicy,omitempty"`
-   Encoding PrivateKeyEncoding `json:"encoding,omitempty"`
-   Algorithm PrivateKeyAlgorithm `json:"algorithm,omitempty"`
-   Size int `json:"size,omitempty"` 
-   <b>Pkcs11</b> string  `json:"pkcs11,omitempty"`
+type CertificatePrivateKey struct { 
+   Pkcs11 string  `json:"pkcs11,omitempty"`
   }
 ```
 The Pkcs11 format shall be a PKCS #11 URI (https://datatracker.ietf.org/doc/html/rfc7512) using `pkcs11`as prefix or an address for a remote HSM server.  An example is like `pkcs11:token=xxx%20;id=xxx?module-path=/usr/lib64/xxx.so&pin-value=1234`
@@ -97,12 +93,7 @@ One filed  `Pkcs11` for `IssuerConfig` in Issuer CRD will be added to let user s
 // The configuration for the issuer.
 // Only one of these can be set.
 type IssuerConfig struct {
-  ACME *cmacme.ACMEIssuer `json:"acme,omitempty"`
-  CA *CAIssuer `json:"ca,omitempty"`
-  Vault *VaultIssuer `json:"vault,omitempty"`
-  SelfSigned *SelfSignedIssuer `json:"selfSigned,omitempty"`
-  Venafi *VenafiIssuer `json:"venafi,omitempty"`
-  **Pkcs11** string  `json:"pkcs11,omitempty"`
+  Pkcs11 string  `json:"pkcs11,omitempty"`
 }
 ```
 
