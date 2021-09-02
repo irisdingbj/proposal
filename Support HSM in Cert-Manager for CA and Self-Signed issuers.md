@@ -73,11 +73,14 @@ type CertificatePrivateKey struct {
 ```
 The Pkcs11 format shall be a PKCS #11 URI (https://datatracker.ietf.org/doc/html/rfc7512) using `pkcs11`as prefix or an address for a remote HSM server.  An example is like `pkcs11:token=xxx%20;id=xxx?module-path=/usr/lib64/xxx.so&pin-value=1234`
 
+PKI functions in cert-manager like generate key pair, get Key pair and Sign will be enhanced to call HSM backend instead for CRs that has PKCS11 info defined. 
+
 1. Key Manager Controller will be enhanced to call HSM backend to generate private keys and using the returned key handler info to generate the temp secret. 
 ```
  config := parsePkcs11URI("pkcs11:token=xxx%20;id=xxx?module-path=/usr/lib64/xxx.so&pin-value=1234")
  context, err := crypto11.Configure(config)
  context.GenerateRSAKeyPair(xxx,xxx)
+ 
 ```
 
 
@@ -109,11 +112,7 @@ type IssuerConfig struct {
 }
 
 CA issuer will be enhanced to call HSM backend via PKCS11 URI info to sign certs back. 
-  
-
-### Workflow 
- 
-(Local) HSM Backend <-> HSM Controller <-> Attestation CRD <-> Attestation  
+   
 
  
 
