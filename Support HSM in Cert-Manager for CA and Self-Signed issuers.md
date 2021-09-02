@@ -110,6 +110,6 @@ With Crypto11 enabled, id and label are used as the identifiers to fetch the pri
 
 ### Third Party Projects 
 
-SoftHSMv2 (https://github.com/opendnssec/SoftHSMv2) from OpenDNSSEC project can be utilized to provide HSM support for upstream to demonstrate how to utilized HSM in cert-manager. Other hardware based solutions should work seamlessly as well.  
+[SoftHSMv2](https://github.com/opendnssec/SoftHSMv2) from OpenDNSSEC project can be utilized to provide HSM support for upstream to demonstrate how to utilized HSM in cert-manager. Other hardware based solutions should work seamlessly as well.  
  
 --- 
