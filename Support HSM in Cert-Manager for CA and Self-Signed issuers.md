@@ -68,7 +68,7 @@ type CertificatePrivateKey struct {
    Encoding PrivateKeyEncoding `json:"encoding,omitempty"`
    Algorithm PrivateKeyAlgorithm `json:"algorithm,omitempty"`
    Size int `json:"size,omitempty"` 
-   Pkcs11 string  `json:"pkcs11,omitempty"`
+   <b>Pkcs11 string  `json:"pkcs11,omitempty"`</b>
   }
 ```
 The Pkcs11 format shall be a PKCS #11 URI (https://datatracker.ietf.org/doc/html/rfc7512) using `pkcs11`as prefix or an address for a remote HSM server.  An example is like `pkcs11:token=xxx%20;id=xxx?module-path=/usr/lib64/xxx.so&pin-value=1234`
