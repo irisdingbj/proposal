@@ -91,8 +91,8 @@ type IssuerConfig struct {
   Pkcs11 string  `json:"pkcs11,omitempty"`
 }
 ```
-
-CA issuer will be enhanced to call HSM backend via PKCS11 URI info to sign certs back. 
+User needs to create secret with key handler info that can be retrieved via PKCS11 URI.
+CA issuer will be enhanced to call HSM backend via PKCS11 URI info to find the correct key stored in HSM and  sign certs back. 
  
 ### Work Flow Diagram 
 ### Key retrieval 
