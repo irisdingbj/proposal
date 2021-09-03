@@ -53,7 +53,7 @@ PKI functions in cert-manager like generate key pair, get Key pair and Sign will
 
 Self-signed issuer in cert-manager is majorly used to bootstrap a CA issuer. So it will work jointly with Certificate Custom resource.
 
-A picture to be added to illustrated. 
+![picture](./cert-manager-self-signed.svg)
 
 One field  `Pkcs11` for `CertificatePrivateKey` in Certificate CRD will be added to let user specify PKCS11 URI info:
 
