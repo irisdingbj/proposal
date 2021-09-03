@@ -95,6 +95,8 @@ User needs to create secret with key handler info that can be retrieved via PKCS
 CA issuer will be enhanced to call HSM backend via PKCS11 URI info to find the correct key stored in HSM and  sign certs back. 
  
 ### Work Flow Diagram 
+
+Self-Signed(.png)
 ### Key retrieval 
 
  
