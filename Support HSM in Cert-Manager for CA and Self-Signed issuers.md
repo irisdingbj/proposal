@@ -55,7 +55,7 @@ Self-signed issuer in cert-manager is majorly used to bootstrap a CA issuer. So 
 
 A picture to be added to illustrated. 
 
-One filed  `Pkcs11` for `CertificatePrivateKey` in Certificate CRD will be added to let user specify PKCS11 URI info:
+One field  `Pkcs11` for `CertificatePrivateKey` in Certificate CRD will be added to let user specify PKCS11 URI info:
 
 ```
 // CertificatePrivateKey contains configuration options for private keys
@@ -78,11 +78,11 @@ The Pkcs11 format shall be a PKCS #11 [URI](https://datatracker.ietf.org/doc/htm
 2. Request manager controller will be enhanced to create certificateRequest via hsm backend and add annotation `cert-manager.io/hsm :true`  for those certificates with pkcs11 info. 
  
 
-3. Issuing controller will be enhanced call HSM backend to sign the CSR to save secrets with key handler info with keys saved in HSM.  
+3. Issuing controller will be enhanced call HSM backend to sign the CSR to save secrets with key handler info with keys saved in HSM. 
  
 ### CA Issuer
 
-One filed  `Pkcs11` for `IssuerConfig` in Issuer CRD will be added to let user specify PKCS11 URI info:
+One field  `Pkcs11` for `IssuerConfig` in Issuer CRD will be added to let user specify PKCS11 URI info:
 
 ```
 // The configuration for the issuer.
