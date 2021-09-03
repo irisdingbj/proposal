@@ -96,7 +96,7 @@ CA issuer will be enhanced to call HSM backend via PKCS11 URI info to find the c
  
 ### Work Flow Diagram 
 
-Self-Signed(HSM-workflow.svg)
+Self-Signed(./HSMworkflow.svg)
 ### Key retrieval 
 
  
